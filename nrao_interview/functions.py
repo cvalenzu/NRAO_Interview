@@ -18,19 +18,6 @@ def prepare_directory(save_path):
         os.makedirs(abs_path)
 
 
-def plot_time_domain(data, save=True, save_path='.', format='jpg'):
-    """Generate Time Domain plots.
-
-    Parameters
-    ----------
-    data : pandas.DataFrame
-        Spectra over time (Rows Time, Columns Frequency).
-    save : Boolean
-        Store the plots in a directory.
-    """
-    pass
-
-
 def plot_frequency_domain(data, save=True, save_path='.', format='jpg'):
     """Generate frequency Domain plots.
 
@@ -58,23 +45,36 @@ def plot_frequency_domain(data, save=True, save_path='.', format='jpg'):
     plt.show()
 
 
-def estimate_snr(data):
-    """Estimate the SNR from a spectra over time.
+# def plot_time_domain(data, save=True, save_path='.', format='jpg'):
+#     """Generate Time Domain plots.
+#
+#     Parameters
+#     ----------
+#     data : pandas.DataFrame
+#         Spectra over time (Rows Time, Columns Frequency).
+#     save : Boolean
+#         Store the plots in a directory.
+#     """
+#     pass
 
-    Parameters
-    ----------
-    data : pandas.DataFrame
-        Spectra over time (Rows Time, Columns Frequency).
 
-    Returns
-    -------
-    float
-        SNR estimate from the data.
-
-    """
-
-    data = data.values
-    mean = data.mean()
-    std = data.std()
-
-    return None
+# def estimate_snr(data):
+#     """Estimate the SNR from a spectra over time.
+#
+#     Parameters
+#     ----------
+#     data : pandas.DataFrame
+#         Spectra over time (Rows Time, Columns Frequency).
+#
+#     Returns
+#     -------
+#     float
+#         SNR estimate from the data.
+#
+#     """
+#
+#     data = data.values
+#     mean = data.mean()
+#     std = data.std()
+#
+#     return None

@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 import glob
 from unittest.mock import patch
-from nrao_interview.functions import prepare_directory, plot_time_domain, plot_frequency_domain
+from nrao_interview.functions import prepare_directory, plot_frequency_domain#, plot_time_domain
 
 
 class TestPlotFunctions(unittest.TestCase):
@@ -44,7 +44,3 @@ class TestPlotFunctions(unittest.TestCase):
         if os.path.exists(self.test_dir):
             os.rmdir(self.test_dir)
         [os.remove(f) for f in glob.glob("*.jpg")]
-
-
-if __name__ == '__main__':
-    unittest.main()
