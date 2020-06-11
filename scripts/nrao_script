@@ -14,8 +14,8 @@ supported_formats = list(plt.gcf().canvas.get_supported_filetypes().keys())
               help="Save the plots in a directory. (Default: Save in current directory)")
 @click.option('--save-path', default='.', type=click.Path(exists=False),
               help="Plot directory. (Default: Current directory)")
-@click.option('--format', default='jpg', type=click.Choice(supported_formats),
-              help="Output plot format. (Default: jpg)")
+@click.option('--format', default='pdf', type=click.Choice(supported_formats),
+              help="Output plot format. (Default: pdf)")
 def analyze(spectrum_file_path, save, save_path, format):
     """NRAO Code excercise.
     Reads a CSV spectrum, create plots and estimate SNR.

@@ -15,7 +15,7 @@ class TestPlotFunctions(unittest.TestCase):
     def setUp(self):
         if os.path.exists(self.test_dir):
             os.rmdir(self.test_dir)
-        [os.remove(f) for f in glob.glob("*.jpg")]
+        [os.remove(f) for f in glob.glob("*.pdf")]
 
     # Checking if the directory is created
     def test_prepare_directory(self):
@@ -33,14 +33,14 @@ class TestPlotFunctions(unittest.TestCase):
     # Checking if the plots are created
     @patch("nrao_interview.functions.plt.show")
     def test_plot_frequency_domain(self, mock_show):
-        plot_frequency_domain(self.data, save=False, format='jpg')
-        no_save_jpg = len(glob.glob("*.jpg"))
-        assert(no_save_jpg == 0)
-        plot_frequency_domain(self.data, save=True, format='jpg')
-        save_jpg = len(glob.glob("*.jpg"))
-        assert(save_jpg > 0)
+        plot_frequency_domain(self.data, save=False, format='pdf')
+        no_save_pdf = len(glob.glob("*.pdf"))
+        assert(no_save_pdf == 0)
+        plot_frequency_domain(self.data, save=True, format='pdf')
+        save_pdf = len(glob.glob("*.pdf"))
+        assert(save_pdf > 0)
 
     def tearDown(self):
         if os.path.exists(self.test_dir):
             os.rmdir(self.test_dir)
-        [os.remove(f) for f in glob.glob("*.jpg")]
+        [os.remove(f) for f in glob.glob("*.pdf")]
