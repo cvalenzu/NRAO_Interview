@@ -1,0 +1,53 @@
+#!/usr/bin/env python
+
+import click
+import pandas as pd
+import matplotlib.pyplot as plt
+from nrao_interview.functions import prepare_directory, plot_time_domain, plot_frequency_domain, estimate_snr
+
+supported_formats = list(plt.gcf().canvas.get_supported_filetypes().keys())
+
+
+@click.command()
+@click.argument('spectrum_file_path', type=click.File())
+@click.option('--save/--no-save', default=True,
+              help="Save the plots in a directory. (Default: Save in current directory)")
+@click.option('--save-path', default='.', type=click.Path(exists=False),
+              help="Plot directory. (Default: Current directory)")
+@click.option('--format', default='jpg', type=click.Choice(supported_formats),
+              help="Output plot format. (Default: jpg)")
+def analyze(spectrum_file_path, save, save_path, format):
+    """NRAO Code excercise.
+    Reads a CSV spectrum, create plots and estimate SNR.
+
+    SPECTRUM_FILE_PATH: Path for the csv file with the following structure:
+        The power measurement of different frequency channels (columns) over time (rows)
+    """
+
+    click.echo(f"Reading {spectrum_file_path.name}")
+    try:
+        data = pd.read_csv(spectrum_file_path, index_col=0)
+        data.index.name = "Time"
+    except pd.errors.ParserError:
+        click.secho("Something went wrong reading the spectrum.", err=True, fg='red')
+
+    if save:
+        click.secho("Preparing directory", fg='blue')
+        prepare_directory(save_path)
+
+    # click.echo("Generating Time Domain Plots.")
+    # plot_time_domain(data, save, save_path, format)
+
+    click.echo("Generating Time Domain Plots.")
+    plot_frequency_domain(data, save, save_path, format)
+
+    # click.echo("Estimating SNR.")
+    # snr = estimate_snr(data)
+    # click.secho(f"The estimate SNR is: {snr}", fg='blue')
+    #
+    #
+    # click.echo("Done.")
+
+
+if __name__ == "__main__":
+    analyze()
