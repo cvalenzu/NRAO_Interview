@@ -11,7 +11,7 @@ def prepare_directory(save_path):
     Parameters
     ----------
     save_path : String
-        Path to save plots
+        Path to save plots.
     """
     abs_path = os.path.abspath(save_path)
     if not os.path.exists(abs_path):
@@ -28,6 +28,7 @@ def plot_basic(data, snr=None, freq_snr=None):
     Parameters
     ----------
     data : pandas.DataFrame
+        DataFrame containing the power
     snr : float
         SNR estimate.
     freq_snr : array
@@ -38,11 +39,16 @@ def plot_basic(data, snr=None, freq_snr=None):
         Figure with plots.
     """
 
+    # Calculating stats
     mean = data.mean(axis=0)
     min = data.min(axis=0)
     max = data.max(axis=0)
+
+    # Some utils
     frequencies = np.arange(data.shape[1])
     n_plots = 3 if freq_snr is not None else 2
+
+    # Creting plots
     fig, axes = plt.subplots(n_plots, 1, sharex=True)
     # Plotting data
     axes[0].matshow(data)
@@ -62,8 +68,52 @@ def plot_basic(data, snr=None, freq_snr=None):
         axes[2].plot(frequencies, freq_snr)
         axes[2].set_title(title)
         axes[2].set_ylabel("SNR")
+    last_ax = n_plots-1
+    axes[last_ax].set_xlabel("Frequency [units]")
+    fig.suptitle("Basic Information")
+    fig.tight_layout(rect=[0, 0.03, 1, 0.95])
+    return fig
 
-    fig.tight_layout()
+
+def plot_over_time(data):
+    """Generate a plot with the mean power over time.
+
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        DataFrame containing the power
+
+    Returns
+    -------
+    matplotlib.figure.Figure
+        Figure with plots.
+    """
+
+    # Getting stats
+    mean = data.mean(axis=1)
+    min = data.min(axis=1)
+    max = data.max(axis=1)
+    frequencies = np.arange(data.shape[0])
+    data = np.asarray(data)
+
+    # Plotting
+    fig, axes = plt.subplots(2, 1, sharex=True)
+    # Plotting data
+    axes[0].matshow(data.T)
+    axes[0].set_aspect('auto')
+    axes[0].set_title("Raw Data")
+    axes[0].set_ylabel("Frequency [units]")
+    axes[0].set_xlim((0, len(frequencies)))
+    # Plotting power over time (mean)
+    axes[1].plot(frequencies, mean, label="Mean Power")
+    axes[1].fill_between(frequencies, min, max, alpha=0.2, label="Power Range (Min/Max)")
+    axes[1].axhline(data.mean(), ls="--", color="red", label=f"Power Mean {data.mean():.3f}")
+    axes[1].set_title("Power over time.")
+    axes[1].set_ylabel("Power [units]")
+    axes[1].set_xlabel("Time [units]")
+    axes[1].legend()
+    fig.suptitle("Analysis over time")
+    fig.tight_layout(rect=[0, 0.03, 1, 0.95])
     return fig
 
 
@@ -88,11 +138,17 @@ def plot_data(data, snr=None, freq_snr=None, save=True, save_path='.', format='j
 
     click.secho("Plotting basic information.", fg='blue')
     fig_basic = plot_basic(data, snr=snr, freq_snr=freq_snr)
+    click.secho("Plotting data over time", fg='blue')
+    fig_time = plot_over_time(data)
+
     if save:
         save_path = os.path.abspath(save_path)
         click.echo(f"Saving plots into: {save_path}")
-        out_path = os.path.join(save_path, f'basic_plots.{format}')
-        fig_basic.savefig(out_path, format=format)
+        out_basic_path = os.path.join(save_path, f'basic_plots.{format}')
+        fig_basic.savefig(out_basic_path, format=format)
+
+        out_time_path = os.path.join(save_path, f'over_time_plots.{format}')
+        fig_time.savefig(out_time_path, format=format)
     plt.show()
 
 
