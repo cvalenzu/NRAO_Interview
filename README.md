@@ -49,9 +49,41 @@ showing the test code coverage.
 Using the mean of the frecuencies over time as the
 <img src="https://render.githubusercontent.com/render/math?math=P_{signal}"> .
 
-<img src="https://render.githubusercontent.com/render/math?math=signal^k = \frac{1}{K} \displaystyle\sum_{t=0}^T x^k_t ">
+We calculate the mean for each frequency:
 
+<img src="https://render.githubusercontent.com/render/math?math=P_{signal}^k = \frac{1}{T} \displaystyle\sum_{t=0}^T x^k_t ">
 
+Then we calculate the deviation from the mean
+
+<img src="https://render.githubusercontent.com/render/math?math={dev}_t^k = \left|x_t^k  - P_{signal}^k \right|, \forall t \in T">
+
+The deviation will show the noise. Then we calculate the mean of the deviation and we'll get the <img src="https://render.githubusercontent.com/render/math?math=P_{noise}"> .
+
+<img src="https://render.githubusercontent.com/render/math?math=P_{noise}^k = \frac{1}{T} \displaystyle\sum_{t=0}^T dev^k_t ">
+
+We calculate the SNR for each frequency
+
+<img src="https://render.githubusercontent.com/render/math?math=SNR^k = \frac{P_{noise}^k}{P_{noise}^k}, \forall k \in K">
+
+And get the max SNR as the estimate.
+
+<img src="https://render.githubusercontent.com/render/math?math=SNR=\max(SNR^k)">
+
+Example:
+
+The data and signal:
+
+<img src="doc/data.png"><img src="doc/signal.png">
+
+Then we estimate the noise get the mean at each frequency:
+
+<img src="doc/noise.png"> <img src="doc/pnoise.png">
+
+And later the SNR for each frequency:
+
+<img src="doc/snr_all.png">
+
+And a SNR = 27.349
 
 
 ## Other notes
