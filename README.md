@@ -44,7 +44,18 @@ coverage report -m
 ```
 showing the test code coverage.
 
+## Signal to Noise Ratio (SNR) estimation
 
-## Some Assumptions
+Using the mean of the frecuencies over time as the
+<img src="https://render.githubusercontent.com/render/math?math=P_{signal}"> .
+
+<img src="https://render.githubusercontent.com/render/math?math=signal^k = \frac{1}{K} \displaystyle\sum_{t=0}^T x^k_t ">
+
+
+
+
+## Other notes
 
 - The code is written for python 3, it will not work on python 2 (Just for some string formatting, is easy to made it compatible).
+
+- In the SNR estimation function if the noise (deviation from the mean) is zero, then it will show a warning an get a `nan` result.

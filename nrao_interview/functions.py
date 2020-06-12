@@ -18,8 +18,8 @@ def prepare_directory(save_path):
         os.makedirs(abs_path)
 
 
-def plot_frequency_domain(data, save=True, save_path='.', format='jpg'):
-    """Generate frequency Domain plots.
+def plot_data(data, snr=None, save=True, save_path='.', format='jpg'):
+    """Generate Time and Frequency Domain plots.
 
     Parameters
     ----------
@@ -32,9 +32,11 @@ def plot_frequency_domain(data, save=True, save_path='.', format='jpg'):
     min = data.min(axis=0)
     max = data.max(axis=0)
     frequencies = np.arange(data.shape[1])
+    title = "Mean Spectrogram." if snr is None else f"Mean Spectrogram. (SNR: {snr:.3f})"
+
     plt.plot(frequencies, mean, label="Mean Power")
     plt.fill_between(frequencies, min, max, alpha=0.2, label="Power Range (Min/Max)")
-    plt.title("Mean Spectrogram.")
+    plt.title(title)
     plt.xlabel("Frequency [units]")
     plt.ylabel("Power [units]")
     plt.legend()
@@ -58,23 +60,31 @@ def plot_frequency_domain(data, save=True, save_path='.', format='jpg'):
 #     pass
 
 
-# def estimate_snr(data):
-#     """Estimate the SNR from a spectra over time.
-#
-#     Parameters
-#     ----------
-#     data : pandas.DataFrame
-#         Spectra over time (Rows Time, Columns Frequency).
-#
-#     Returns
-#     -------
-#     float
-#         SNR estimate from the data.
-#
-#     """
-#
-#     data = data.values
-#     mean = data.mean()
-#     std = data.std()
-#
-#     return None
+def estimate_snr(data):
+    """Estimate the SNR from a spectra over time.
+
+    We assume that the mean over time is the Signal. Then we calculate the
+    deviation's mean to get an estimate of the "noise".
+
+    For each frequency we calculate a SNR and then we get the max for the
+    whole spectrogram.
+
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        Spectra over time (Rows Time, Columns Frequency).
+
+    Returns
+    -------
+    float
+        SNR estimate from the data.
+
+    """
+
+    signal = data.mean(0)
+    deviation = np.abs(data - signal)
+    noise = deviation.mean(axis=0)
+    SNR_all = signal/noise
+    SNR = SNR_all.max()
+
+    return SNR

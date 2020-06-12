@@ -3,7 +3,7 @@
 import click
 import pandas as pd
 import matplotlib.pyplot as plt
-from nrao_interview.functions import prepare_directory, plot_time_domain, plot_frequency_domain, estimate_snr
+from nrao_interview.functions import prepare_directory, plot_data, estimate_snr
 
 supported_formats = list(plt.gcf().canvas.get_supported_filetypes().keys())
 
@@ -35,18 +35,14 @@ def analyze(spectrum_file_path, save, save_path, format):
         click.secho("Preparing directory", fg='blue')
         prepare_directory(save_path)
 
-    # click.echo("Generating Time Domain Plots.")
-    # plot_time_domain(data, save, save_path, format)
+    click.echo("Estimating SNR.")
+    snr = estimate_snr(data)
+    click.secho(f"The estimate SNR is: {snr:.3f}", fg='blue')
 
-    click.echo("Generating Time Domain Plots.")
-    plot_frequency_domain(data, save, save_path, format)
+    click.echo("Generating Time and Frequency Domain Plots.")
+    plot_data(data, snr=snr, save=save, save_path=save_path, format=format)
 
-    # click.echo("Estimating SNR.")
-    # snr = estimate_snr(data)
-    # click.secho(f"The estimate SNR is: {snr}", fg='blue')
-    #
-    #
-    # click.echo("Done.")
+    click.echo("Done.")
 
 
 if __name__ == "__main__":

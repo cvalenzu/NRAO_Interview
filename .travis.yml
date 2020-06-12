@@ -12,5 +12,6 @@ install:
 script:
   - pip install .
   - coverage run -m pytest
+  - pycodestyle nrao_interview/*  scripts/* --max-line-length=120
 after_success:
 - codecov
