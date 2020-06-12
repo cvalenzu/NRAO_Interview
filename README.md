@@ -46,20 +46,19 @@ showing the test code coverage.
 
 ## Signal to Noise Ratio (SNR) estimation
 
-Using the mean of the frecuencies over time as the
-<img src="https://render.githubusercontent.com/render/math?math=P_{signal}"> .
+First we need to get the signal, we assume that the mean value over time for each frequency is the signal, so we calculate it for each frequency <img src="https://render.githubusercontent.com/render/math?math=k \in K">:
 
-We calculate the mean for each frequency:
+<img src="https://render.githubusercontent.com/render/math?math=P_{signal}^k = \frac{1}{T} \displaystyle\sum_{t=0}^T x^k_t , \forall k \in K">
 
-<img src="https://render.githubusercontent.com/render/math?math=P_{signal}^k = \frac{1}{T} \displaystyle\sum_{t=0}^T x^k_t ">
+So the Power of the signal is <img src="https://render.githubusercontent.com/render/math?math=P_{signal}^k, \forall k \in K">
 
 Then we calculate the deviation from the mean
 
-<img src="https://render.githubusercontent.com/render/math?math={dev}_t^k = \left|x_t^k  - P_{signal}^k \right|, \forall t \in T">
+<img src="https://render.githubusercontent.com/render/math?math={dev}_t^k = \left|x_t^k  - P_{signal}^k \right|, \forall t \in T , \forall k \in K">
 
-The deviation will show the noise. Then we calculate the mean of the deviation and we'll get the <img src="https://render.githubusercontent.com/render/math?math=P_{noise}"> .
+The deviation we will have an estimate of the noise for each time. Then we calculate the mean of the deviation and we'll get the <img src="https://render.githubusercontent.com/render/math?math=P_{noise}"> .
 
-<img src="https://render.githubusercontent.com/render/math?math=P_{noise}^k = \frac{1}{T} \displaystyle\sum_{t=0}^T dev^k_t ">
+<img src="https://render.githubusercontent.com/render/math?math=P_{noise}^k = \frac{1}{T} \displaystyle\sum_{t=0}^T dev^k_t , \forall k \in K ">
 
 We calculate the SNR for each frequency
 
@@ -69,7 +68,7 @@ And get the max SNR as the estimate.
 
 <img src="https://render.githubusercontent.com/render/math?math=SNR=\max(SNR^k)">
 
-Example:
+### Example:
 
 The data and signal:
 
