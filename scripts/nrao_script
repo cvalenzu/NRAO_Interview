@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from nrao_interview.functions import prepare_directory, plot_data, estimate_snr
 
 supported_formats = list(plt.gcf().canvas.get_supported_filetypes().keys())
+plt.close()
 
 
 @click.command()
@@ -36,13 +37,13 @@ def analyze(spectrum_file_path, save, save_path, format):
         prepare_directory(save_path)
 
     click.echo("Estimating SNR.")
-    snr = estimate_snr(data)
+    snr, freq_snr = estimate_snr(data)
     click.secho(f"The estimate SNR is: {snr:.3f}", fg='blue')
 
     click.echo("Generating Time and Frequency Domain Plots.")
-    plot_data(data, snr=snr, save=save, save_path=save_path, format=format)
+    plot_data(data, snr=snr, freq_snr=freq_snr, save=save, save_path=save_path, format=format)
 
-    click.echo("Done.")
+    click.secho("Done.", fg='green')
 
 
 if __name__ == "__main__":
