@@ -11,13 +11,15 @@ plt.close()
 
 @click.command()
 @click.argument('spectrum_file_path', type=click.File())
+@click.option('--show/--no-show', default=True,
+              help="Show the plots on GUI.")
 @click.option('--save/--no-save', default=True,
               help="Save the plots in a directory. (Default: Save in current directory)")
 @click.option('--save-path', default='.', type=click.Path(exists=False),
               help="Plot directory. (Default: Current directory)")
 @click.option('--format', default='pdf', type=click.Choice(supported_formats),
               help="Output plot format. (Default: pdf)")
-def analyze(spectrum_file_path, save, save_path, format):
+def analyze(spectrum_file_path, show, save, save_path, format):
     """NRAO Code excercise.
     Reads a CSV spectrum, create plots and estimate SNR.
 
@@ -41,7 +43,7 @@ def analyze(spectrum_file_path, save, save_path, format):
     click.secho(f"The estimate SNR is: {snr:.3f}", fg='blue')
 
     click.echo("Generating Time and Frequency Domain Plots.")
-    plot_data(data, snr=snr, freq_snr=freq_snr, save=save, save_path=save_path, format=format)
+    plot_data(data, snr=snr, freq_snr=freq_snr, show=show, save=save, save_path=save_path, format=format)
 
     click.secho("Done.", fg='green')
 

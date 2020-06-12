@@ -117,7 +117,7 @@ def plot_over_time(data):
     return fig
 
 
-def plot_data(data, snr=None, freq_snr=None, save=True, save_path='.', format='jpg'):
+def plot_data(data, snr=None, freq_snr=None, show=True, save=True, save_path='.', format='jpg'):
     """Generate Time and Frequency Domain plots.
 
     Parameters
@@ -144,12 +144,13 @@ def plot_data(data, snr=None, freq_snr=None, save=True, save_path='.', format='j
     if save:
         save_path = os.path.abspath(save_path)
         click.echo(f"Saving plots into: {save_path}")
-        out_basic_path = os.path.join(save_path, f'basic_plots.{format}')
+        out_basic_path = os.path.join(save_path, f'basic_plot.{format}')
         fig_basic.savefig(out_basic_path, format=format)
 
-        out_time_path = os.path.join(save_path, f'over_time_plots.{format}')
+        out_time_path = os.path.join(save_path, f'over_time_plot.{format}')
         fig_time.savefig(out_time_path, format=format)
-    plt.show()
+    if show:
+        plt.show()
 
 
 def estimate_snr(data):

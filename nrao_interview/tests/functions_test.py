@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 import glob
 from unittest.mock import patch
-from nrao_interview.functions import prepare_directory, plot_data, plot_basic, estimate_snr
+from nrao_interview.functions import prepare_directory, plot_data, plot_basic, plot_over_time, estimate_snr
 
 
 class TestPlotFunctions(unittest.TestCase):
@@ -30,6 +30,13 @@ class TestPlotFunctions(unittest.TestCase):
     def test_plot_basic(self, mock_show):
         from matplotlib.figure import Figure
         fig = plot_basic(self.data, snr=3, freq_snr=np.arange(self.data.shape[1]))
+        assert(isinstance(fig, Figure))
+
+    # Checking if the function returns a figure
+    @patch("nrao_interview.functions.plt.show")
+    def test_plot_over_time(self, mock_show):
+        from matplotlib.figure import Figure
+        fig = plot_over_time(self.data)
         assert(isinstance(fig, Figure))
 
     # Checking if the plots are created
