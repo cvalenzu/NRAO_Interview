@@ -91,13 +91,13 @@ This scripts create two plots:
 
 1.- Basic information plot:
 
-![basic_plots](doc/basic_plots.jpg)
+![basic_plots](doc/basic_plot.jpg)
 
 This plot has the Raw Data with frequency on the x axis, the mean of the Spectrogram (by assumption is the signal), with its min/max, and the SNR estimate for each frequency and the max value (the one selected and shown in the terminal).
 
 2.- Over Time plot:
 
-![over_time_plots](doc/over_time_plots.jpg)
+![over_time_plots](doc/over_time_plot.jpg)
 
 This plot can be used to check if there is a raise in the power over time, we can see the mean min and max. In this case there is no power spikes in the Spectrogram.
 
@@ -106,3 +106,7 @@ This plot can be used to check if there is a raise in the power over time, we ca
 - The code is written for python 3, it will not work on python 2 (Just for some string formatting, is easy to made it compatible).
 
 - In the SNR estimation function if the noise (deviation from the mean) is zero, then it will show a warning an get a `nan` result.
+
+- There is no optimization for big files (if the file has too many Columns or rows the plots will be horrible).
+
+- The first column is taken as the time for the spectrogram.
