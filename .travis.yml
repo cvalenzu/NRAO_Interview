@@ -56,5 +56,6 @@ script:
   - pip install .
   - coverage run -m pytest
   - pycodestyle nrao_interview/*  scripts/* --max-line-length=120 --show-pep8
+  - nrao_script nrao_interview/tests/data1.csv --no-show --no-save
 after_success:
 - codecov
