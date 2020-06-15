@@ -27,6 +27,14 @@ For more information run
 nrao_script --help
 ```
 
+To create the plots with the default parameters just run
+
+```
+nrao_script data.csv
+```
+
+And the plots will be generated on the current directory
+
 ## Running test & coverage
 
 The `nrao_script` has a associated package called `nrao_interview`, this package has a `test` module.
