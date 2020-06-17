@@ -59,3 +59,4 @@ script:
   - nrao_script nrao_interview/tests/data1.csv --no-show --no-save
 after_success:
 - codecov
+- CODACY_PROJECT_TOKEN=cf36ef24696741f9aecee4145bd63481 bash <(curl -Ls https://coverage.codacy.com/get.sh)
