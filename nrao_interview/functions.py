@@ -1,12 +1,12 @@
 import click
-import sys
 import os
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def prepare_directory(save_path):
-    """Create directory if doesn't exists.
+    """
+    Create directory if doesn't exists.
 
     Parameters
     ----------
@@ -19,7 +19,8 @@ def prepare_directory(save_path):
 
 
 def plot_basic(data, snr=None, freq_snr=None):
-    """Plot basic information.
+    """
+    Plot basic inplot_formation.
 
     - Raw Data
     - Mean of frequency over time
@@ -38,11 +39,10 @@ def plot_basic(data, snr=None, freq_snr=None):
     matplotlib.figure.Figure
         Figure with plots.
     """
-
     # Calculating stats
     mean = data.mean(axis=0)
-    min = data.min(axis=0)
-    max = data.max(axis=0)
+    min_val = data.min(axis=0)
+    max_val = data.max(axis=0)
 
     # Some utils
     frequencies = np.arange(data.shape[1])
@@ -58,7 +58,7 @@ def plot_basic(data, snr=None, freq_snr=None):
     axes[0].set_xlim((0, len(frequencies)))
     # Plotting signal (mean)
     axes[1].plot(frequencies, mean, label="Mean Power")
-    axes[1].fill_between(frequencies, min, max, alpha=0.2, label="Power Range (Min/Max)")
+    axes[1].fill_between(frequencies, min_val, max_val, alpha=0.2, label="Power Range (Min/Max)")
     axes[1].set_title("Mean Spectrogram.")
     axes[1].set_ylabel("Power [units]")
     axes[1].legend()
@@ -70,13 +70,14 @@ def plot_basic(data, snr=None, freq_snr=None):
         axes[2].set_ylabel("SNR")
     last_ax = n_plots-1
     axes[last_ax].set_xlabel("Frequency [units]")
-    fig.suptitle("Basic Information")
+    fig.suptitle("Basic Inplot_formation")
     fig.tight_layout(rect=[0, 0.03, 1, 0.95])
     return fig
 
 
 def plot_over_time(data):
-    """Generate a plot with the mean power over time.
+    """
+    Generate a plot with the mean power over time.
 
     Parameters
     ----------
@@ -88,11 +89,10 @@ def plot_over_time(data):
     matplotlib.figure.Figure
         Figure with plots.
     """
-
     # Getting stats
     mean = data.mean(axis=1)
-    min = data.min(axis=1)
-    max = data.max(axis=1)
+    min_val = data.min(axis=1)
+    max_val = data.max(axis=1)
     frequencies = np.arange(data.shape[0])
     data = np.asarray(data)
 
@@ -106,7 +106,7 @@ def plot_over_time(data):
     axes[0].set_xlim((0, len(frequencies)))
     # Plotting power over time (mean)
     axes[1].plot(frequencies, mean, label="Mean Power")
-    axes[1].fill_between(frequencies, min, max, alpha=0.2, label="Power Range (Min/Max)")
+    axes[1].fill_between(frequencies, min_val, max_val, alpha=0.2, label="Power Range (Min/Max)")
     axes[1].axhline(data.mean(), ls="--", color="red", label=f"Power Mean {data.mean():.3f}")
     axes[1].set_title("Power over time.")
     axes[1].set_ylabel("Power [units]")
@@ -117,8 +117,9 @@ def plot_over_time(data):
     return fig
 
 
-def plot_data(data, snr=None, freq_snr=None, show=True, save=True, save_path='.', format='jpg'):
-    """Generate Time and Frequency Domain plots.
+def plot_data(data, snr=None, freq_snr=None, show=True, save=True, save_path='.', plot_format='jpg'):
+    """
+    Generate Time and Frequency Domain plots.
 
     Parameters
     ----------
@@ -132,11 +133,10 @@ def plot_data(data, snr=None, freq_snr=None, show=True, save=True, save_path='.'
         Store the plots in a directory.
     save_path : string
         Path to store the plots.
-    format : string
-        Format given to savefig.
+    plot_format : string
+        plot_format given to savefig.
     """
-
-    click.secho("Plotting basic information.", fg='blue')
+    click.secho("Plotting basic inplot_formation.", fg='blue')
     fig_basic = plot_basic(data, snr=snr, freq_snr=freq_snr)
     click.secho("Plotting data over time", fg='blue')
     fig_time = plot_over_time(data)
@@ -144,17 +144,18 @@ def plot_data(data, snr=None, freq_snr=None, show=True, save=True, save_path='.'
     if save:
         save_path = os.path.abspath(save_path)
         click.echo(f"Saving plots into: {save_path}")
-        out_basic_path = os.path.join(save_path, f'basic_plot.{format}')
-        fig_basic.savefig(out_basic_path, format=format)
+        out_basic_path = os.path.join(save_path, f'basic_plot.{plot_format}')
+        fig_basic.savefig(out_basic_path, plot_format=plot_format)
 
-        out_time_path = os.path.join(save_path, f'over_time_plot.{format}')
-        fig_time.savefig(out_time_path, format=format)
+        out_time_path = os.path.join(save_path, f'over_time_plot.{plot_format}')
+        fig_time.savefig(out_time_path, plot_format=plot_format)
     if show:
         plt.show()
 
 
 def estimate_snr(data):
-    """Estimate the SNR from a spectra over time.
+    """
+    Estimate the SNR from a spectra over time.
 
     We assume that the mean over time is the Signal. Then we calculate the
     deviation's mean to get an estimate of the "noise".
@@ -173,11 +174,10 @@ def estimate_snr(data):
         SNR estimate from the data and SNR for each frequency.
 
     """
-
     signal = data.mean(0)
     deviation = np.abs(data - signal)
     noise = deviation.mean(axis=0)
-    freq_SNR = signal/noise
-    SNR = freq_SNR.max()
+    freq_snr = signal/noise
+    snr = freq_snr.max()
 
-    return SNR, freq_SNR
+    return snr, freq_snr

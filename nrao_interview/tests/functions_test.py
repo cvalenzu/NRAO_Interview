@@ -8,14 +8,14 @@ from nrao_interview.functions import prepare_directory, plot_data, plot_basic, p
 
 class TestPlotFunctions(unittest.TestCase):
     """Simple unittest for plotting functions."""
-
     test_dir = 'test_dir'
     data = np.random.rand(100, 128)
+    format_expression = "*.pdf"
 
     def setUp(self):
         if os.path.exists(self.test_dir):
             os.rmdir(self.test_dir)
-        [os.remove(f) for f in glob.glob("*.pdf")]
+        [os.remove(f) for f in glob.glob(self.format_expression)]
 
     # Checking if the directory is created
     def test_prepare_directory(self):
@@ -42,17 +42,18 @@ class TestPlotFunctions(unittest.TestCase):
     # Checking if the plots are created
     @patch("nrao_interview.functions.plt.show")
     def test_plot_data(self, mock_show):
-        plot_data(self.data, save=False, format='pdf')
-        no_save_pdf = len(glob.glob("*.pdf"))
+        plot_data(self.data, save=False, plot_format='pdf')
+        no_save_pdf = len(glob.glob(self.format_expression))
         assert(no_save_pdf == 0)
-        plot_data(self.data, save=True, format='pdf')
-        save_pdf = len(glob.glob("*.pdf"))
+        plot_data(self.data, save=True, plot_format='pdf')
+        save_pdf = len(glob.glob(self.format_expression))
         assert(save_pdf > 0)
 
     def tearDown(self):
         if os.path.exists(self.test_dir):
             os.rmdir(self.test_dir)
-        [os.remove(f) for f in glob.glob("*.pdf")]
+        for f in glob.glob(self.format_expression):
+            os.remove(f)
 
 
 class TestSNRFunctions(unittest.TestCase):

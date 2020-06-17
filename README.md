@@ -8,13 +8,13 @@ A simple script that takes a Spectrogram in CSV, generate plots and estimate the
 ## Installation
 
 To install the required packages run:
-```
+```bash
 pip install -r requirements.txt
 ```
 
 Then installing the script is simple
 
-```
+```bash
 pip install .
 ```
 
@@ -23,13 +23,13 @@ pip install .
 The script is called `nrao_script` it is installed on the python path and can be run in a terminal.
 
 For more information run
-```
+```bash
 nrao_script --help
 ```
 
 To create the plots with the default parameters just run
 
-```
+```bash
 nrao_script data.csv
 ```
 
@@ -40,14 +40,14 @@ And the plots will be generated on the current directory
 The `nrao_script` has a associated package called `nrao_interview`, this package has a `test` module.
 
 To run tests:
-```
+```bash
 pip install pytest
 pip install coverage
 coverage run -m pytest
 ```
 
 This will generate a `.coverage` file and can be analyzed with
-```
+```bash
 coverage report -m
 ```
 showing the test code coverage.
@@ -76,7 +76,7 @@ And get the max SNR as the estimate.
 
 <img src="https://render.githubusercontent.com/render/math?math=SNR=\max(SNR^k)">
 
-### Example:
+### Example
 
 The data and signal:
 
@@ -92,8 +92,7 @@ And later the SNR for each frequency:
 
 And a SNR = 27.349
 
-
-## Plots Generated.
+## Plots Generated
 
 This scripts create two plots:
 
@@ -112,9 +111,6 @@ This plot can be used to check if there is a raise in the power over time, we ca
 ## Other notes
 
 - The code is written for python 3, it will not work on python 2 (Just for some string formatting, is easy to made it compatible).
-
 - In the SNR estimation function if the noise (deviation from the mean) is zero, then it will show a warning an get a `nan` result.
-
 - There is no optimization for big files (if the file has too many Columns or rows the plots will be horrible).
-
 - The first column is taken as the time for the spectrogram.
